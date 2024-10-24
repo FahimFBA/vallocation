@@ -1,5 +1,6 @@
-fastapi
-uvicorn
+fastapi[all]
 pymongo[srv]
-pydantic
-python-dotenv
+# uvicorn
+# pymongo[srv]
+# pydantic
+# python-dotenv
