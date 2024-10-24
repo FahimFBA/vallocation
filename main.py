@@ -36,6 +36,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Health Check endpoint
+@app.get("/health", tags=["Health"])
+async def health_check():
+    return {"status": "healthy"}
+
+
 # Main entry point when running the app directly
 if __name__ == "__main__":
     """
