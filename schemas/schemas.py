@@ -42,11 +42,11 @@ class VallocationUpdate(BaseModel):
     Pydantic model for updating an existing vehicle allocation.
 
     Attributes:
-        allocation_date (date, optional): Updated allocation date.
+        allocation_date (str, optional): Updated allocation date as a string in ISO format (e.g., "2023-06-15").
         status (str, optional): Status of the allocation (e.g., pending, confirmed, canceled).
     """
     allocation_date: Optional[date] = Field(
-        None, description="Updated allocation date")
+        None, description="Updated allocation date as a string in ISO format (e.g., '2023-06-15')")
     status: Optional[str] = Field(
         None, description="Status of the allocation (e.g., pending, confirmed, canceled)")
 

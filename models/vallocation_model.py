@@ -18,6 +18,7 @@ class Vallocation(BaseModel):
         allocation_date (date): The date for which the vehicle is allocated.
         status (str, optional): Status of the allocation (e.g., pending, confirmed, canceled). Defaults to "pending".
     """
+
     employee_id: int = Field(...,
                              description="ID of the employee allocating the vehicle")
     vehicle_id: int = Field(..., description="ID of the allocated vehicle")
@@ -26,14 +27,10 @@ class Vallocation(BaseModel):
     allocation_date: date = Field(...,
                                   description="The date for which the vehicle is allocated")
     status: Optional[str] = Field(
-        "pending", description="Status of the allocation (e.g., pending, confirmed, canceled)")
+        "pending", description="Status of the allocation (e.g., pending, confirmed, cancelled)")
 
-    class Config:
-        """
-        Pydantic configuration for the Vallocation model.
 
-        Includes an example JSON schema for documentation purposes.
-        """
+    class Config:  
         json_schema_extra = {
             "example": {
                 "employee_id": 123,
