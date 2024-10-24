@@ -6,6 +6,7 @@ It includes CRUD operations and history reporting.
 """
 
 from fastapi import FastAPI
+from routers import route
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -15,6 +16,9 @@ app = FastAPI(
                 "Includes CRUD operations and history reporting.",
     version="1.0.0",
 )
+
+# Include the router from route.py
+app.include_router(route.router)
 
 """
 Set up CORS (for future feat. integration: frontend or external access)
