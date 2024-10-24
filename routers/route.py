@@ -12,7 +12,7 @@ from datetime import date, datetime
 from bson import ObjectId
 from models.vallocation_model import Vallocation
 from schemas.schemas import VallocationCreate, VallocationUpdate, VallocationResponse
-from config.database import collection 
+from config.database import collection  
 
 router = APIRouter()
 
@@ -34,7 +34,6 @@ async def is_vehicle_allocated(vehicle_id: int, allocation_date: date, collectio
         "allocation_date": allocation_date.isoformat()
     })
     return existing_allocation is not None
-
 
 # Helper function to validate if allocation date is before today
 def is_date_in_future(allocation_date: date) -> bool:
@@ -77,7 +76,7 @@ async def create_allocation(allocation: VallocationCreate, collection: AsyncIOMo
             status_code=400, detail="Vehicle is already allocated for the requested date."
         )
 
-    # Get pre-assigned driver for the vehicle (by default, the driver_id is set same as vehicle_id here)
+    # Get pre-assigned driver for the vehicle (for simplicity, driver_id is set same as vehicle_id here)
     driver_id = allocation.vehicle_id
 
     # Insert new allocation into MongoDB
@@ -113,45 +112,31 @@ async def update_allocation(allocation_id: str, allocation: VallocationUpdate, c
         VallocationResponse: The updated allocation data.
     """
     # Check if the allocation exists
-    try:
-        existing_allocation = await collection.find_one({"_id": ObjectId(allocation_id)})
-    except Exception:
-        raise HTTPException(
-            status_code=400, detail="Invalid allocation ID format.")
-
+    existing_allocation = await collection.find_one({"_id": ObjectId(allocation_id)})
     if not existing_allocation:
         raise HTTPException(status_code=404, detail="Allocation not found.")
 
     # Ensure the allocation date is in the future for modifications
-    existing_allocation_date = datetime.strptime(
+    allocation_date = datetime.strptime(
         existing_allocation["allocation_date"], "%Y-%m-%d").date()
-    if not is_date_in_future(existing_allocation_date):
+    if not is_date_in_future(allocation_date):
         raise HTTPException(
             status_code=400, detail="Cannot update allocations that have already passed."
         )
 
     # If updating allocation date, ensure the vehicle is not already allocated for the new date
-    if allocation.allocation_date:
-        allocation_date_obj = allocation.allocation_date
-        if await is_vehicle_allocated(existing_allocation["vehicle_id"], allocation_date_obj, collection):
-            raise HTTPException(
-                status_code=400, detail="Vehicle is already allocated for the new requested date."
-            )
+    if allocation.allocation_date and await is_vehicle_allocated(existing_allocation["vehicle_id"], allocation.allocation_date, collection):
+        raise HTTPException(
+            status_code=400, detail="Vehicle is already allocated for the new requested date."
+        )
 
     # Update the allocation fields
     update_data = {k: v for k, v in allocation.dict(
         exclude_unset=True).items()}
-
-    # Handle date formatting if allocation_date is being updated
-    if 'allocation_date' in update_data:
-        update_data['allocation_date'] = allocation.allocation_date.isoformat()
-
-    # Perform the update in MongoDB
     await collection.update_one({"_id": ObjectId(allocation_id)}, {"$set": update_data})
 
     # Return the updated allocation
     updated_allocation = await collection.find_one({"_id": ObjectId(allocation_id)})
-
     return VallocationResponse(id=str(updated_allocation["_id"]), **updated_allocation)
 
 # Delete an allocation
@@ -176,9 +161,9 @@ async def delete_allocation(allocation_id: str, collection: AsyncIOMotorCollecti
         raise HTTPException(status_code=404, detail="Allocation not found.")
 
     # Ensure the allocation date is in the future for deletions
-    existing_allocation_date = datetime.strptime(
+    allocation_date = datetime.strptime(
         existing_allocation["allocation_date"], "%Y-%m-%d").date()
-    if not is_date_in_future(existing_allocation_date):
+    if not is_date_in_future(allocation_date):
         raise HTTPException(
             status_code=400, detail="Cannot delete allocations that have already passed."
         )
