@@ -1,0 +1,14 @@
+# Virtual Environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# MyPy cache
+.mypy_cache/
+
+# Other common files to ignore
+*.log
+*.sqlite3
+.DS_Store
