@@ -36,7 +36,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Accessing the root URL
+
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the Vehicle Allocation API. For going to swagger, add '/docs' after http://127.0.0.1:8000/"}
+
 # Health Check endpoint
+
+
 @app.get("/health", tags=["Health"])
 async def health_check():
     return {"status": "healthy"}
