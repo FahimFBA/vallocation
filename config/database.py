@@ -1,3 +1,10 @@
+"""
+MongoDB Database Initialization Module
+
+This module is responsible for initializing the MongoDB database connection,
+creating necessary indexes, and setting up the database for the Vehicle Allocation System.
+"""
+
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 import os
@@ -22,12 +29,21 @@ collection = db.vallocation_collection
 
 # Function to create indexes
 async def create_indexes():
-    # Index on vehicle_id and allocation_date to prevent double booking
+    """
+    Create necessary indexes in the MongoDB collection.
+
+    Indexes:
+    - Unique index on 'vehicle_id' and 'allocation_date' to prevent double booking
+    - Index on 'employee_id' for efficient querying
+    """
     await collection.create_index([("vehicle_id", 1), ("allocation_date", 1)], unique=True)
-    await collection.create_index([("employee_id", 1)])  # Index on employee_id
+    await collection.create_index([("employee_id", 1)])
 
 # Function to initialize the database at startup
 async def initialize_db():
+    """
+    Initialize the MongoDB database by creating necessary indexes.
+    """
     await create_indexes()
 
 # For running it directly (testing purposes)
