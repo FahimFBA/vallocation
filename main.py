@@ -1,31 +1,63 @@
-import os
-from dotenv import load_dotenv
-from pymongo.server_api import ServerApi
-from pymongo.mongo_client import MongoClient
+"""
+Vehicle Allocation System API
+
+This API is designed to manage vehicle allocations for employees.
+It includes CRUD operations and history reporting.
+"""
+
 from fastapi import FastAPI
+from routers import route
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
-app = FastAPI()
+app = FastAPI(
+    title="Vehicle Allocation System",
+    description="API for managing vehicle allocations for employees. "
+                "Includes CRUD operations and history reporting.",
+    version="1.0.0",
+)
+
+# Include the router from route.py
+app.include_router(route.router)
+
+"""
+Set up CORS (for future feat. integration: frontend or external access)
+"""
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Accessing the root URL
 
 
-# Load environment variables from .env file
-load_dotenv()
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the Vehicle Allocation API. For going to swagger, add '/docs' after http://127.0.0.1:8000/"}
 
-# Retrieve the MongoDB credentials from the environment variables
-username = os.getenv("MONGO_USERNAME")
-password = os.getenv("MONGO_PASSWORD")
-cluster = os.getenv("MONGO_CLUSTER_URL")
-
-# Create the MongoDB connection URI using the loaded credentials
-uri = f"mongodb+srv://{username}:{password}@{
-    cluster}/?retryWrites=true&w=majority&appName=Cluster0"
+# Health Check endpoint
 
 
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
+@app.get("/health", tags=["Health"])
+async def health_check():
+    return {"status": "healthy"}
 
-# Send a ping to confirm a successful connection
-try:
-    client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
+
+# Main entry point when running the app directly
+if __name__ == "__main__":
+    """
+    Run the FastAPI application using the uvicorn server.
+
+    Host: Binds the server to all available network interfaces.
+    Port: Runs the server on port 8000.
+    Reload: Automatically reloads the server when code changes are detected.
+    """
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
