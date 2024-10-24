@@ -1,6 +1,4 @@
 fastapi[all]
 pymongo[srv]
-# uvicorn
-# pymongo[srv]
-# pydantic
-# python-dotenv
+motor
+python-dotenv
