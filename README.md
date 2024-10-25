@@ -17,7 +17,7 @@ A fast and efficient **Vehicle Allocation System** built using **FastAPI** and *
   - [Create an Allocation](#create-an-allocation)
   - [Update an Allocation](#update-an-allocation)
   - [Delete an Allocation](#delete-an-allocation)
-  - [Get Allocations](#get-allocation-history)
+  - [Get Allocations History](#get-allocation-history)
 - [Database Schema](#database-schema)
 - [Contributors](#contributors)
 
