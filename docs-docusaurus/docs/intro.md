@@ -268,5 +268,5 @@ Each allocation is stored in MongoDB in the following format:
 - **Fahim** - Developer, Architect
 - **[Contributors](https://github.com/FahimFBA/vallocation/contributors)**
 
-Feel free to open issues or submit pull requests to help improve this project!
+Feel free to open [issues](https://github.com/FahimFBA/vallocation/issues) or submit [pull requests](https://github.com/FahimFBA/vallocation/pulls) to help improve this project!
 
