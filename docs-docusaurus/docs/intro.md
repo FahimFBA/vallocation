@@ -211,7 +211,7 @@ Ensure you have test data in your test database and properly mock external depen
 ## Contributors
 
 - **Fahim** - Developer, Architect
-- **[Contributors](https://github.com/your-repo/contributors)**
+- **[Contributors](https://github.com/vallocation/contributors)**
 
 Feel free to open issues or submit pull requests to help improve this project!
 
