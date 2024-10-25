@@ -167,12 +167,56 @@ vallocation/
   }
   ```
 
-### Get Allocations
-- **Endpoint:** `GET /allocations`
-- **Description:** Fetches all allocations for the current user.
+### Get Allocation History
+- **Endpoint:** `GET /history/`
+- **Description:** Fetches allocation history with optional filters (e.g., by employee, vehicle, driver, or allocation date) and supports pagination.
+- **Query Parameters:**
+  - `employee_id` (optional): Filter allocations by employee ID.
+  - `vehicle_id` (optional): Filter allocations by vehicle ID.
+  - `driver_id` (optional): Filter allocations by driver ID.
+  - `allocation_date` (optional): Filter allocations by allocation date (format: `YYYY-MM-DD`).
+  - `skip` (optional, default: 0): Number of records to skip for pagination.
+  - `limit` (optional, default: 10): Maximum number of records to return.
+
 - **Response:**
   ```json
-  [
+  {
+    "total": 100,
+    "skip": 0,
+    "limit": 10,
+    "results": [
+      {
+        "id": "60c72b2f9b7e4e2d88d0f66b",
+        "employee_id": 101,
+        "vehicle_id": 456,
+        "driver_id": 45,
+        "allocation_date": "2024-11-01",
+        "status": "pending"
+      },
+      {
+        "id": "60c72b3f9b7e4e2d88d0f66c",
+        "employee_id": 102,
+        "vehicle_id": 457,
+        "driver_id": 46,
+        "allocation_date": "2024-11-02",
+        "status": "confirmed"
+      }
+    ]
+  }
+  ```
+
+#### Example Request:
+```
+GET /history/?employee_id=101&skip=0&limit=10
+```
+
+#### Example Response:
+```json
+{
+  "total": 100,
+  "skip": 0,
+  "limit": 10,
+  "results": [
     {
       "id": "60c72b2f9b7e4e2d88d0f66b",
       "employee_id": 101,
@@ -180,9 +224,22 @@ vallocation/
       "driver_id": 45,
       "allocation_date": "2024-11-01",
       "status": "pending"
+    },
+    {
+      "id": "60c72b3f9b7e4e2d88d0f66c",
+      "employee_id": 101,
+      "vehicle_id": 458,
+      "driver_id": 47,
+      "allocation_date": "2024-11-03",
+      "status": "confirmed"
     }
   ]
-  ```
+}
+```
+
+#### Pagination & Filters:
+- The endpoint allows pagination by using the `skip` and `limit` query parameters.
+- You can apply multiple filters like `employee_id`, `vehicle_id`, `driver_id`, or `allocation_date` to narrow down the results.
 
 ## Database Schema
 
@@ -197,15 +254,6 @@ Each allocation is stored in MongoDB in the following format:
     "status": "pending"
 }
 ```
-
-<!-- ## Testing
-
-To run the test suite, execute the following command:
-```bash
-pytest
-```
-
-Ensure you have test data in your test database and properly mock external dependencies when running tests. -->
 
 ## Contributors
 
