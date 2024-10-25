@@ -7,6 +7,8 @@ sidebar_position: 1
 
 A fast and efficient **Vehicle Allocation System** built using **FastAPI** and **MongoDB**, designed to allow employees to allocate vehicles for specific dates, manage allocation statuses, and handle driver assignments. The system ensures that a vehicle is not double-booked and enforces date restrictions to prevent allocation modifications after the allocation date.
 
+![Banner](/img/vallocation_banner.png)
+
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
@@ -260,7 +262,7 @@ Each allocation is stored in MongoDB in the following format:
 ## Contributors
 
 - **Fahim** - Developer, Architect
-- **[Contributors](https://github.com/vallocation/contributors)**
+- **[Contributors](https://github.com/FahimFBA/vallocation/contributors)**
 
 Feel free to open issues or submit pull requests to help improve this project!
 
