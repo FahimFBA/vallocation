@@ -8,7 +8,7 @@
 
 **Tech Stack:** GitHub Actions (`actions/checkout@v4`, `taiki-e/create-gh-release-action@v1`), bash/grep for header extraction.
 
-> **Implementation note:** Task 2 below was written assuming `taiki-e/parse-changelog` could be used in a `uses:` step. It can't — it's a CLI tool, not a GitHub Action. The actual implementation splits this into two workflows (`tag-release.yml` + `publish-release.yml` using `taiki-e/create-gh-release-action@v1`); see `specs/2026-06-19-changelog-release-design.md` for the corrected design.
+> **Implementation note:** Task 2 below was written assuming `taiki-e/parse-changelog` could be used in a `uses:` step. It can't — it's a CLI tool, not a GitHub Action. A two-workflow split (tag-then-release) was tried next and also failed: tags pushed with the default `GITHUB_TOKEN` don't trigger other workflows. The final implementation uses one workflow with `taiki-e/create-gh-release-action@v1`, passing it an explicit `ref` so it creates the tag itself via the Releases API — no second trigger needed. See `specs/2026-06-19-changelog-release-design.md` for the corrected design.
 
 ## Global Constraints
 

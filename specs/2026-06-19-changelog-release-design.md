@@ -27,28 +27,20 @@ Maintain a hand-written `CHANGELOG.md` and automatically create a tagged GitHub 
 - First entry: `[1.1.0] - 2026-06-19`, documenting today's dependency vulnerability fixes (Python deps bump, Docusaurus bump, npm `overrides` + `patch-package` patch for `gray-matter`).
 - Covers the whole repo (API + docs site) as one unit — single version line, not split per component.
 
-## Release workflow (two workflows)
+## Release workflow (`.github/workflows/release.yml`)
 
-`taiki-e/parse-changelog` is a CLI tool, not a GitHub Action — it can't be used in a `uses:` step. Release creation is split into two workflows instead:
+`taiki-e/parse-changelog` is a CLI tool, not a GitHub Action — it can't be used in a `uses:` step.
 
-### `.github/workflows/tag-release.yml` (tags new versions)
+A two-workflow split (tag on `CHANGELOG.md` push → release on tag push) was tried and doesn't work: tags pushed using the default `GITHUB_TOKEN` don't trigger other workflows (GitHub's anti-recursion protection), so the second workflow never fires. Using a personal access token to work around that adds a secret to manage for no real benefit here, so instead everything happens in one workflow, one job — no tag-push trigger needed at all, because `create-gh-release-action` accepts an explicit `ref` input and creates the tag itself via the GitHub Releases API if it doesn't already exist.
 
 - Trigger: `push` to `main`, `paths: ['CHANGELOG.md']`.
-- Permissions: `contents: write` (to push tags).
+- Permissions: `contents: write` (to create the release/tag).
 - Steps:
   1. `actions/checkout@v4` with `fetch-depth: 0` (full history, so existing tags are visible).
   2. Extract the first version header from `CHANGELOG.md` (first line matching `## [X.Y.Z] - `), via `grep -m1 -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+(?=\] - )' CHANGELOG.md`.
-  3. If empty (top section is still `[Unreleased]`), exit without error — nothing to release.
-  4. Check whether tag `v$VERSION` already exists (`git tag -l`). If it does, exit without error — this version was already released (e.g. an unrelated typo fix elsewhere in the file shouldn't trigger a re-release).
-  5. Otherwise, create and push git tag `v$VERSION` pointing at the triggering commit.
-
-### `.github/workflows/publish-release.yml` (publishes the release)
-
-- Trigger: `push` with `tags: ['v[0-9]+.[0-9]+.[0-9]+']` — fires when `tag-release.yml` pushes the tag above.
-- Permissions: `contents: write` (to create the release).
-- Steps:
-  1. `actions/checkout@v4`.
-  2. `taiki-e/create-gh-release-action@v1` with `changelog: CHANGELOG.md` — this action parses the changelog itself (using `parse-changelog` internally) for the section matching the pushed tag's version and creates the GitHub Release with that text as the body.
+  3. If empty (top section is still `[Unreleased]`), set `skip=true` and stop — nothing to release.
+  4. Check whether tag `v$VERSION` already exists (`git tag -l`). If it does, set `skip=true` and stop — this version was already released (e.g. an unrelated typo fix elsewhere in the file shouldn't trigger a re-release).
+  5. Otherwise, run `taiki-e/create-gh-release-action@v1` with `changelog: CHANGELOG.md` and `ref: refs/tags/v$VERSION` — it parses that version's section out of `CHANGELOG.md` (via `parse-changelog` internally) and creates the tag + GitHub Release with that text as the body.
 
 ## Out of scope
 

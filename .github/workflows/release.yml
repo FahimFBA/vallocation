@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths: ['CHANGELOG.md']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from CHANGELOG.md
+        id: extract
+        run: |
+          VERSION=$(grep -m1 -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+(?=\] - )' CHANGELOG.md || true)
+          if [ -z "$VERSION" ]; then
+            echo "No dated version section found at the top of CHANGELOG.md (still [Unreleased]?). Skipping release."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if git tag -l "v$VERSION" | grep -q "v$VERSION"; then
+            echo "Tag v$VERSION already exists. Skipping release."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        if: steps.extract.outputs.skip == 'false'
+        uses: taiki-e/create-gh-release-action@v1
+        with:
+          changelog: CHANGELOG.md
+          ref: refs/tags/v${{ steps.extract.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
