@@ -15,3 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bumped `@docusaurus/*` packages 3.5.2 → 3.10.1 in `docs-docusaurus/`, closing all critical and high severity `npm audit` findings.
 - Added `npm` `overrides` for `http-proxy-middleware`, `serialize-javascript`, and `uuid` to close moderate severity transitive vulnerabilities in the Docusaurus build toolchain.
 - Patched the unmaintained `gray-matter` dependency (via `patch-package`) to use the `js-yaml` v4 API (`load`/`dump` instead of the removed `safeLoad`/`safeDump`), closing the remaining 22 moderate `npm audit` findings without breaking the Docusaurus build.
+
+### Fixed
+
+- Pinned `taiki-e/parse-changelog` in the release workflow to `v0.6.17` (the `v1` tag used initially doesn't exist on that action).
