@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Linked `CHANGELOG.md` and the GitHub Releases page from the README and the Docusaurus site footer.
+
 ## [1.1.0] - 2026-06-19
 
 ### Security

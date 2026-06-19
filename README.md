@@ -21,6 +21,7 @@ A fast and efficient **Vehicle Allocation System** built using **FastAPI** and *
   - [Delete an Allocation](#delete-an-allocation)
   - [Get Allocations History](#get-allocation-history)
 - [Database Schema](#database-schema)
+- [Changelog](#changelog)
 - [Contributors](#contributors)
 
 ## Overview
@@ -259,6 +260,10 @@ Each allocation is stored in MongoDB in the following format:
     "status": "pending"
 }
 ```
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for notable changes, or the [Releases page](https://github.com/FahimFBA/vallocation/releases) for tagged versions.
 
 ## Contributors
 

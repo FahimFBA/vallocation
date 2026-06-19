@@ -104,6 +104,10 @@ const config = {
                 label: 'Demonstration',
                 to: '/docs/intro',
               },
+              {
+                label: 'Releases',
+                href: 'https://github.com/FahimFBA/vallocation/releases',
+              },
             ],
           },
           {
