@@ -37,7 +37,7 @@ jobs:
       - name: Parse release notes
         if: steps.extract.outputs.skip == 'false'
         id: parse
-        uses: taiki-e/parse-changelog@v1
+        uses: taiki-e/parse-changelog@v0.6.17
         with:
           changelog: CHANGELOG.md
           version: ${{ steps.extract.outputs.version }}
