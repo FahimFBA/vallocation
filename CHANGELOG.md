@@ -18,4 +18,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Pinned `taiki-e/parse-changelog` in the release workflow to `v0.6.17` (the `v1` tag used initially doesn't exist on that action).
+- Replaced the release workflow's invalid use of `taiki-e/parse-changelog` (a CLI tool, not a GitHub Action) with two workflows: `tag-release.yml` tags new `CHANGELOG.md` versions on push to `main`, and `publish-release.yml` (triggered by the tag push) uses `taiki-e/create-gh-release-action@v1` to publish the GitHub Release from that changelog entry.

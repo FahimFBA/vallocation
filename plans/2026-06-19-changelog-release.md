@@ -6,7 +6,9 @@
 
 **Architecture:** `CHANGELOG.md` at repo root in Keep a Changelog format is the single source of truth for the release version. `.github/workflows/release.yml` triggers on push to `main` (only when `CHANGELOG.md` changes), extracts the top version header, skips if that version is already tagged, otherwise uses `taiki-e/parse-changelog` to pull the section body and `softprops/action-gh-release` to create the tag + release.
 
-**Tech Stack:** GitHub Actions (`actions/checkout@v4`, `taiki-e/parse-changelog@v1`, `softprops/action-gh-release@v2`), bash/grep for header extraction.
+**Tech Stack:** GitHub Actions (`actions/checkout@v4`, `taiki-e/create-gh-release-action@v1`), bash/grep for header extraction.
+
+> **Implementation note:** Task 2 below was written assuming `taiki-e/parse-changelog` could be used in a `uses:` step. It can't — it's a CLI tool, not a GitHub Action. The actual implementation splits this into two workflows (`tag-release.yml` + `publish-release.yml` using `taiki-e/create-gh-release-action@v1`); see `specs/2026-06-19-changelog-release-design.md` for the corrected design.
 
 ## Global Constraints
 
