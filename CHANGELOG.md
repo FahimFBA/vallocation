@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Linked `CHANGELOG.md` and the GitHub Releases page from the README and the Docusaurus site footer.
 
+### Security
+
+- Bumped `pydantic-settings` 2.14.1 → 2.14.2 in `requirements.txt`, closing a moderate severity advisory reported by Dependabot.
+- Added `npm` `overrides` in `docs-docusaurus/package.json` for `js-yaml` (→ 4.3.1), `nanoid` (→ 3.3.18), `postcss` (→ 8.5.23), `brace-expansion` (→ 1.1.18), `fast-uri` (→ 3.1.5), `body-parser` (→ 1.20.6), `webpack-dev-server` (→ 5.2.6), `shell-quote` (→ 1.9.0), and `svgo` (→ 3.3.4), closing 12 high/medium severity `npm audit` findings in the Docusaurus build toolchain. Verified `npm run build` still succeeds.
+- `image-size` (pulled in transitively by `@docusaurus/mdx-loader`) remains on the vulnerable `<=2.0.2` line for two DoS advisories (GHSA-w3rx-r6r6-pgpr, GHSA-5p2g-fcmc-qvqq); no patched release exists upstream yet. Risk is limited since `image-size` only runs at docs build time against trusted repo content, not at runtime against user input. Tracked for a follow-up bump once a fix is published.
+
 ## [1.1.0] - 2026-06-19
 
 ### Security
