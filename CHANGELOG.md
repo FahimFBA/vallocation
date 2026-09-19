@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bumped `pydantic-settings` 2.14.1 → 2.14.2 in `requirements.txt`, closing a moderate severity advisory reported by Dependabot.
 - Added `npm` `overrides` in `docs-docusaurus/package.json` for `js-yaml` (→ 4.3.1), `nanoid` (→ 3.3.18), `postcss` (→ 8.5.23), `brace-expansion` (→ 1.1.18), `fast-uri` (→ 3.1.5), `body-parser` (→ 1.20.6), `webpack-dev-server` (→ 5.2.6), `shell-quote` (→ 1.9.0), and `svgo` (→ 3.3.4), closing 12 high/medium severity `npm audit` findings in the Docusaurus build toolchain. Verified `npm run build` still succeeds.
 - `image-size` (pulled in transitively by `@docusaurus/mdx-loader`) remains on the vulnerable `<=2.0.2` line for two DoS advisories (GHSA-w3rx-r6r6-pgpr, GHSA-5p2g-fcmc-qvqq); no patched release exists upstream yet. Risk is limited since `image-size` only runs at docs build time against trusted repo content, not at runtime against user input. Tracked for a follow-up bump once a fix is published.
+- Bumped `anyio` 4.14.0 → 4.14.2 in `requirements.txt`, closing one critical (CVE-2026-63374, TLS certificate spoofing via IDNA 2003 host encoding) and two additional Dependabot advisories.
+- `image-size` fix landed upstream (2.0.3): added `npm` override pinning it to 2.0.4 in `docs-docusaurus/package.json`, closing the two DoS advisories noted above.
+- Bumped further `npm` `overrides` in `docs-docusaurus/package.json`: `js-yaml` (→ 4.3.2), `fast-uri` (→ 3.1.6), `svgo` (→ 3.3.5), and added new overrides for `browserslist` (→ 4.28.7), `baseline-browser-mapping` (→ 2.11.0), `colord` (→ 2.9.4), `joi` (→ 17.13.6), and `qs` (→ 6.16.0), closing 13 high/medium/low severity Dependabot alerts in the Docusaurus build toolchain. Verified `npm run build` still succeeds with 0 `npm audit` findings.
 
 ## [1.1.0] - 2026-06-19
 
