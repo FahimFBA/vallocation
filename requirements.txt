@@ -1,7 +1,7 @@
 annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.14.2
-certifi==2026.6.17
+certifi==2026.10.19
 click==8.4.1
 colorama==0.4.6
 dnspython==2.8.0
@@ -23,7 +23,7 @@ pydantic-extra-types==2.11.1
 pydantic-settings==2.14.2
 pydantic_core==2.46.4
 Pygments==2.20.0
-pymongo==4.17.0
+pymongo==4.18.2
 python-dotenv==1.2.2
 python-multipart==0.0.32
 PyYAML==6.0.3

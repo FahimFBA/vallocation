@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bumped further `npm` `overrides` in `docs-docusaurus/package.json`: `js-yaml` (→ 4.3.2), `fast-uri` (→ 3.1.6), `svgo` (→ 3.3.5), and added new overrides for `browserslist` (→ 4.28.7), `baseline-browser-mapping` (→ 2.11.0), `colord` (→ 2.9.4), `joi` (→ 17.13.6), and `qs` (→ 6.16.0), closing 13 high/medium/low severity Dependabot alerts in the Docusaurus build toolchain. Verified `npm run build` still succeeds with 0 `npm audit` findings.
 - Bumped further `npm` `overrides` in `docs-docusaurus/package.json`: `brace-expansion` (→ 1.1.21), `fast-uri` (→ 3.1.7), `joi` (→ 17.13.8), and added new overrides for `follow-redirects` (→ 1.16.1), `source-map-js` (→ 1.2.2), and `postcss-selector-parser` (→ 7.1.6), closing 8 high/medium severity Dependabot alerts. Verified `npm run build` still succeeds.
 - `braces` (<= 3.0.3) and `http-cache-semantics` (<= 4.2.0) remain flagged by Dependabot; no patched release exists upstream yet. Both only run at docs build time against trusted repo content. Tracked for a follow-up bump once fixes are published.
+- Bumped `certifi` 2026.6.17 → 2026.10.19 (critical) and `pymongo` 4.17.0 → 4.18.2 (4 high/medium advisories) in `requirements.txt`.
+- Bumped `npm` `overrides` in `docs-docusaurus/package.json`: `fast-uri` (→ 3.1.8), `shell-quote` (→ 1.11.0), and added new overrides for `tinypool` (→ 2.2.0) and `launch-editor` (→ 2.14.2), closing 7 critical/high/medium Dependabot alerts. Verified `npm run build` still succeeds.
 
 ## [1.1.0] - 2026-06-19
 
